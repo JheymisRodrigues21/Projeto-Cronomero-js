@@ -5,17 +5,22 @@ const startBtn = document.querySelector("#startBtn");
 const pauseBtn = document.querySelector("#pauseBtn");
 const resumeBtn = document.querySelector("#resumeBtn");
 const resetBtn = document.querySelector("#resetBtn");
+const saveBtn = document.querySelector("#saveBtn");
+const resume ={};
 
+let countResume = 1;
 let interval;
 let minutes = 0;
 let seconds = 0;
 let milliseconds = 0;
 let isPaused = false;
 
+
 startBtn.addEventListener("click", startTimer);
 pauseBtn.addEventListener("click",pauseTimer);
 resumeBtn.addEventListener("click",resumeTimer);
 resetBtn.addEventListener("click",resetTimer);
+saveBtn.addEventListener("click",saveBack);
 
 function startTimer() {
 
@@ -36,7 +41,7 @@ interval = setInterval (() => {
         secondsEl.textContent = formatTimer(seconds);
         millisecondsEl.textContent = formatmilliseconds(milliseconds);
     }
-},10);
+}, 10);
 
 startBtn.style.display = "none";
 pauseBtn.style.display = "block";
@@ -64,11 +69,41 @@ function resumeTimer (){
     minutesEl.textContent = "00";
     secondsEl.textContent = "00";
     millisecondsEl.textContent = "000";
-
+    
     startBtn.style.display = "block";
     pauseBtn.style.display = "none";
     resumeBtn.style.display = "none";
+
+    isPaused = false;
+   
  }
+ 
+ function saveBack (){
+    resume[countResume] = {minutes, seconds, milliseconds};
+    
+    clearInterval(interval);
+    minutes = 0;
+    seconds = 0;
+    milliseconds = 0;
+
+    minutesEl.textContent = "00";
+    secondsEl.textContent = "00";
+    millisecondsEl.textContent = "000";
+    
+    startBtn.style.display = "none";
+    pauseBtn.style.display = "block";
+    resumeBtn.style.display = "none";
+    saveBtn.style.display = "block";
+    startTimer()
+    console.log(resume[countResume]);
+    countResume += 1
+    
+ isPaused= false;
+
+    
+}
+     
+
 
 function formatTimer(time) {
     return time < 10 ? `0${time}` : time;
